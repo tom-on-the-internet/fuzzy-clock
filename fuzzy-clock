@@ -6,11 +6,19 @@ hour=$(date +'%I')
 minute=$(date +'%M')
 
 # strips leading zero to prevent octal number assumption
+hour=$(( "10#$hour" ))
 minute=$(( "10#$minute" ))
 
 # if the hour is more than half done, we make reference to the next hour
-(( minute >= 33 )) && (( hour != 12 )) && hour=$(( hour + 1 ))
-(( minute >= 33 )) && (( hour == 12 )) && hour=1
+if (( minute >= 33 ))
+then
+  if (( hour != 12 ))
+  then
+    hour=$(( hour + 1 ))
+  else
+    hour=1
+  fi
+fi
 
 hour_as_text=${hours[$hour]}
 
