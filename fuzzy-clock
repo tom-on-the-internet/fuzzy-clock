@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 hours=("zero" "one" "two" "three" "four" "five" "six" "seven" "eight" "nine" "ten" "eleven" "twelve")
 
@@ -9,15 +9,19 @@ minute=$(date +'%M')
 hour=$(( "10#$hour" ))
 minute=$(( "10#$minute" ))
 
-# if the hour is more than half done, we make reference to the next hour
+# if the hour is more than half done, we make reference to the next hour, set adverb to "to" and subract 30 from minutes
 if (( minute >= 33 ))
 then
   if (( hour != 12 ))
   then
     hour=$(( hour + 1 ))
+    minute=$(( 60 - minute ))
+    adverb="to"
   else
     hour=1
   fi
+else
+   adverb="past"
 fi
 
 hour_as_text=${hours[$hour]}
@@ -27,40 +31,22 @@ then
   time_as_text="$hour_as_text o'clock"
 elif (( minute < 8 ))
 then
-  time_as_text="five after $hour_as_text"
+  time_as_text="five $adverb $hour_as_text"
 elif (( minute < 13 ))
 then
-  time_as_text="ten after $hour_as_text"
+  time_as_text="ten $adverb $hour_as_text"
 elif (( minute < 18 ))
 then
-  time_as_text="quarter after $hour_as_text"
+  time_as_text="quarter $adverb $hour_as_text"
 elif (( minute < 23 ))
 then
-  time_as_text="twenty after $hour_as_text"
+  time_as_text="twenty $adverb $hour_as_text"
 elif (( minute < 28 ))
 then
-  time_as_text="twenty-five after $hour_as_text"
+  time_as_text="twenty-five $adverb $hour_as_text"
 elif (( minute < 33 ))
 then
   time_as_text="half past $hour_as_text"
-elif (( minute < 38 ))
-then
-  time_as_text="twenty-five to $hour_as_text"
-elif (( minute < 43 ))
-then
-  time_as_text="twenty to $hour_as_text"
-elif (( minute < 48 ))
-then
-  time_as_text="quarter to $hour_as_text"
-elif (( minute < 53 ))
-then
-  time_as_text="ten to $hour_as_text"
-elif (( minute < 58 ))
-then
-  time_as_text="five to $hour_as_text"
-elif (( minute >= 58 ))
-then
-  time_as_text="$hour_as_text o'clock"
 else
   exit 1
 fi
