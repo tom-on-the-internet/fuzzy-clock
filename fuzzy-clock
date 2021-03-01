@@ -12,14 +12,14 @@ minute=$(( "10#$minute" ))
 # if the hour is more than half done, we make reference to the next hour, set adverb to "to" and subract 30 from minutes
 if (( minute >= 33 ))
 then
-  if (( hour != 12 ))
+  if (( hour == 12 ))
   then
-    hour=$(( hour + 1 ))
-    minute=$(( 60 - minute ))
-    adverb="to"
-  else
     hour=1
+  else
+    hour=$(( hour + 1 ))
   fi
+  minute=$(( 60 - minute ))
+  adverb="to"
 else
    adverb="past"
 fi
